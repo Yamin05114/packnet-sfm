@@ -276,9 +276,10 @@ def image_grid(B, H, W, dtype, device, normalized=False):
     grid : torch.Tensor [B,3,H,W]
         Image grid containing a meshgrid in x, y and 1
     """
+    # xs ys shape：B,1,H,W 
     xs, ys = meshgrid(B, H, W, dtype, device, normalized=normalized)
     ones = torch.ones_like(xs)
-    grid = torch.stack([xs, ys, ones], dim=1)
+    grid = torch.stack([xs, ys, ones], dim=1)  #[B 3 H W]
     return grid
 
 ########################################################################################################################
