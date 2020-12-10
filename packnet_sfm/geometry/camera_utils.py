@@ -22,7 +22,7 @@ def scale_intrinsics(K, x_scale, y_scale):
     return K
 
 ########################################################################################################################
-
+# 按照3D空间位置sample pixel
 def view_synthesis(ref_image, depth, ref_cam, cam,
                    mode='bilinear', padding_mode='zeros'):
     """
