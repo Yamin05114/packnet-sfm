@@ -10,7 +10,7 @@ from packnet_sfm.utils.depth import calc_smoothness, inv2depth
 from packnet_sfm.losses.loss_base import LossBase, ProgressiveScaling
 
 ########################################################################################################################
-
+# SSIM loss: 好复杂还得看
 def SSIM(x, y, C1=1e-4, C2=9e-4, kernel_size=3, stride=1):
     """
     Structural SIMilarity (SSIM) distance between two images.
