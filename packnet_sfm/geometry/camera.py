@@ -33,7 +33,8 @@ class Camera(nn.Module):
     def __len__(self):
         """Batch size of the camera intrinsics"""
         return len(self.K)
-
+    
+    # gpu cpu copy
     def to(self, *args, **kwargs):
         """Moves object to a specific device"""
         self.K = self.K.to(*args, **kwargs)
@@ -61,13 +62,15 @@ class Camera(nn.Module):
     def cy(self):
         """Principal point in y"""
         return self.K[:, 1, 2]
-
+    
+    # twc：世界坐标转相机坐标；tcw：相机坐标转世界坐标
     @property
     @lru_cache()
     def Twc(self):
         """World -> Camera pose transformation (inverse of Tcw)"""
         return self.Tcw.inverse()
-
+    
+    # 相机坐标系和图像坐标系相互转换使用
     @property
     @lru_cache()
     def Kinv(self):
@@ -108,7 +111,7 @@ class Camera(nn.Module):
         return Camera(K, Tcw=self.Tcw)
 
 ########################################################################################################################
-
+   
     def reconstruct(self, depth, frame='w'):
         """
         Reconstructs pixel-wise 3D points from a depth map.
@@ -129,10 +132,10 @@ class Camera(nn.Module):
         assert C == 1
 
         # Create flat index grid
-        grid = image_grid(B, H, W, depth.dtype, depth.device, normalized=False)  # [B,3,H,W]
-        flat_grid = grid.view(B, 3, -1)  # [B,3,HW]
+        grid = image_grid(B, H, W, depth.dtype, depth.device, normalized=False)  # [B,3,H,W]  meshgrid实现的
+        flat_grid = grid.view(B, 3, -1)  # [B,3,HW] hw信息拉直
 
-        # Estimate the outward rays in the camera frame
+        # Estimate the outward rays in the camera frame，通过射线和深度方式提取3D点
         xnorm = (self.Kinv.bmm(flat_grid)).view(B, 3, H, W)
         # Scale rays to metric depth
         Xc = xnorm * depth
