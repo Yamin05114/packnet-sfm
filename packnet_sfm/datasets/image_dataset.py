@@ -11,15 +11,18 @@ from packnet_sfm.utils.image import load_image
 #### FUNCTIONS
 ########################################################################################################################
 
+# cam intrinsics 3 * 3 matrix
 def dummy_calibration(image):
     w, h = [float(d) for d in image.size]
     return np.array([[1000. , 0.    , w / 2. - 0.5],
                      [0.    , 1000. , h / 2. - 0.5],
                      [0.    , 0.    , 1.          ]])
 
+# image idx
 def get_idx(filename):
     return int(re.search(r'\d+', filename).group())
 
+# 读多有folders里面的images
 def read_files(directory, ext=('.png', '.jpg', '.jpeg'), skip_empty=True):
     files = defaultdict(list)
     for entry in os.scandir(directory):
@@ -90,7 +93,7 @@ class ImageDataset(Dataset):
 
     def _read_rgb_file(self, session, filename):
         return load_image(os.path.join(self.root_dir, session, filename))
-
+    
     def __getitem__(self, idx):
         session, filename = self.files[idx]
         image = self._read_rgb_file(session, filename)
