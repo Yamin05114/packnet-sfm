@@ -5,8 +5,8 @@ from packnet_sfm.datasets.augmentations import resize_image, resize_sample, \
     duplicate_sample, colorjitter_sample, to_tensor_sample
 
 ########################################################################################################################
-#数据预处理：resize和
 
+#数据预处理：resize depth，image和instrinsics；改变颜色
 def train_transforms(sample, image_shape, jittering):
     """
     Training data augmentation transformations
@@ -33,6 +33,7 @@ def train_transforms(sample, image_shape, jittering):
     sample = to_tensor_sample(sample)
     return sample
 
+# val只需要resize
 def validation_transforms(sample, image_shape):
     """
     Validation data augmentation transformations
@@ -54,6 +55,7 @@ def validation_transforms(sample, image_shape):
     sample = to_tensor_sample(sample)
     return sample
 
+# test只需要resize
 def test_transforms(sample, image_shape):
     """
     Test data augmentation transformations
@@ -75,6 +77,7 @@ def test_transforms(sample, image_shape):
     sample = to_tensor_sample(sample)
     return sample
 
+# 只是train 多了一个颜色处理
 def get_transforms(mode, image_shape, jittering, **kwargs):
     """
     Get data augmentation transformations for each split
