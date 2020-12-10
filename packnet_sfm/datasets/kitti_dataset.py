@@ -31,6 +31,7 @@ OXTS_POSE_DATA = 'oxts'
 #### FUNCTIONS
 ########################################################################################################################
 
+# depth 表示可以直接用numpy.npz 或者 使用png image（最大255）
 def read_npz_depth(file, depth_type):
     """Reads a .npz depth map given a certain depth_type."""
     depth = np.load(file)[depth_type + '_depth'].astype(np.float32)
