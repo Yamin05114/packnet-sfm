@@ -5,6 +5,7 @@ from packnet_sfm.datasets.augmentations import resize_image, resize_sample, \
     duplicate_sample, colorjitter_sample, to_tensor_sample
 
 ########################################################################################################################
+#数据预处理：resize和
 
 def train_transforms(sample, image_shape, jittering):
     """
