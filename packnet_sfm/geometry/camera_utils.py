@@ -5,12 +5,14 @@ import torch.nn.functional as funct
 
 ########################################################################################################################
 
+# 参数塞入矩阵
 def construct_K(fx, fy, cx, cy, dtype=torch.float, device=None):
     """Construct a [3,3] camera intrinsics from pinhole parameters"""
     return torch.tensor([[fx,  0, cx],
                          [ 0, fy, cy],
                          [ 0,  0,  1]], dtype=dtype, device=device)
 
+# intrinsic尺度变换
 def scale_intrinsics(K, x_scale, y_scale):
     """Scale intrinsics given x_scale and y_scale factors"""
     K[..., 0, 0] *= x_scale
