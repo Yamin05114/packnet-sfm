@@ -9,7 +9,7 @@ from PIL import Image
 from packnet_sfm.utils.misc import filter_dict
 
 ########################################################################################################################
-
+# 普通的尺寸变换
 def resize_image(image, shape, interpolation=Image.ANTIALIAS):
     """
     Resizes input image.
@@ -31,6 +31,7 @@ def resize_image(image, shape, interpolation=Image.ANTIALIAS):
     transform = transforms.Resize(shape, interpolation=interpolation)
     return transform(image)
 
+# depth 找最近位置
 def resize_depth(depth, shape):
     """
     Resizes depth map.
@@ -51,6 +52,7 @@ def resize_depth(depth, shape):
                        interpolation=cv2.INTER_NEAREST)
     return np.expand_dims(depth, axis=2)
 
+# intrinsic根据尺寸相应降低
 def resize_sample_image_and_intrinsics(sample, shape,
                                        image_interpolation=Image.ANTIALIAS):
     """
@@ -95,6 +97,7 @@ def resize_sample_image_and_intrinsics(sample, shape,
     # Return resized sample
     return sample
 
+# 合并尺度，深度，内参的三个resize
 def resize_sample(sample, shape, image_interpolation=Image.ANTIALIAS):
     """
     Resizes a sample, including image, intrinsics and depth maps.
@@ -194,6 +197,7 @@ def duplicate_sample(sample):
     # Return duplicated sample
     return sample
 
+# color augmentation
 def colorjitter_sample(sample, parameters, prob=1.0):
     """
     Jitters input images as data augmentation.
